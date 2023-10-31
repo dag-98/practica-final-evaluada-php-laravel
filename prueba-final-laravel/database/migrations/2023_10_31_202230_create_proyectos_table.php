@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('proyectos', function (Blueprint $table) {
             $table->id();
+            $table->string( 'NombreProyecto');
+            $table->string( 'fuenteFondos');
+            $table->decimal( 'MontoPlanificado' ,10,2);
+            $table->decimal( 'MontoPatrocinado' ,10,2);
+            $table->decimal( 'MontoFondosPropios' ,10,2);
             $table->timestamps();
         });
     }

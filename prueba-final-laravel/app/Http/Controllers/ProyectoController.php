@@ -2,63 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
-        //
+        $proyecto = Proyecto::all();
+        return view('index')->with('listaProyectos', $proyecto);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
-        //
+        return view('crear');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    
+    public function store(Request $formdata)
     {
-        //
+        $nuevoProyecto = new Proyecto;
+        $nuevoProyecto->NombreProyecto = $formdata->input('NombreProyecto');
+        $nuevoProyecto->fuenteFondos = $formdata->input('fuenteFondos');
+        $nuevoProyecto->MontoPlanificado = $formdata->input('MontoPlanificado');
+        $nuevoProyecto->MontoPatrocinado = $formdata->input('MontoPatrocinado');
+        $nuevoProyecto->MontoFondosPropios = $formdata->input('MontoFondosPropios');
+        $nuevoProyecto->save();
+        return redirect()->route('index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+   
+    public function show( $id)
     {
-        //
+        $p_seleccionado = Proyecto::find($id);
+        return view('mostrar')->with('proyecto', $p_seleccionado);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    
+    public function edit($id)
     {
-        //
+        $p_seleccionado = Proyecto::find($id);
+        return view('editar')->with('proyecto', $p_seleccionado);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+   
+    public function update(Request $formdata, $id)
     {
-        //
+        $p_actualizado = Proyecto::find($id);
+        $p_actualizado->NombreProyecto = $formdata->input('NombreProyecto');
+        $p_actualizado->fuenteFondos = $formdata->input('fuenteFondos');
+        $p_actualizado->MontoPlanificado = $formdata->input('MontoPlanificado');
+        $p_actualizado->MontoPatrocinado = $formdata->input('MontoPatrocinado');
+        $p_actualizado->MontoFondosPropios = $formdata->input('MontoFondosPropios');
+        $p_actualizado->save();
+        return redirect()->route('home');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+   
+    public function destroy($id)
     {
-        //
+        $p_seleccionado = Proyecto::find($id);
+        $p_seleccionado->delete();
+        return redirect()->route('home');
     }
 }

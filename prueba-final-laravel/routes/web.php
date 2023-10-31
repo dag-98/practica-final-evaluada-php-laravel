@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProyectoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Proyectos
+Route::resource('/proyectos', ProyectoController::class);
+// Route::post('/users/import', [UserController::class, 'importCsv'])->name('process.csv');
+// Route::post('/users/guardar-registros', [UserController::class, 'guardarRegistros'])->name('guardar.registros');

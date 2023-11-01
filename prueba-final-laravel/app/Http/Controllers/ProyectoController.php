@@ -21,50 +21,49 @@ class ProyectoController extends Controller
     }
 
     
-    public function store(Request $formdata)
+    public function store(Request $request)
     {
-        $nuevoProyecto = new Proyecto;
-        $nuevoProyecto->NombreProyecto = $formdata->input('NombreProyecto');
-        $nuevoProyecto->fuenteFondos = $formdata->input('fuenteFondos');
-        $nuevoProyecto->MontoPlanificado = $formdata->input('MontoPlanificado');
-        $nuevoProyecto->MontoPatrocinado = $formdata->input('MontoPatrocinado');
-        $nuevoProyecto->MontoFondosPropios = $formdata->input('MontoFondosPropios');
-        $nuevoProyecto->save();
+
+        $nuevoProyecto = Proyecto::create([
+            'NombreProyecto' => $request->get('NombreProyecto'),
+            'fuenteFondos' => $request->get('fuenteFondos'),
+            'MontoPlanificado' => $request->get('MontoPlanificado'),
+            'MontoPatrocinado' => $request->get('MontoPatrocinado'),
+            'MontoFondosPropios' => $request->get('MontoFondosPropios')
+        ]);
         return redirect()->route('index');
     }
 
    
-    public function show( $id)
+    public function show(Proyecto $p)
     {
-        $p_seleccionado = Proyecto::find($id);
-        return view('mostrar')->with('proyecto', $p_seleccionado);
+        
+        return view('mostrar')->with('proyecto', $p);
     }
 
     
-    public function edit($id)
+    public function edit(Proyecto $p)
     {
-        $p_seleccionado = Proyecto::find($id);
-        return view('editar')->with('proyecto', $p_seleccionado);
+        
+        return view('editar')->with('proyecto', $p);
     }
 
    
-    public function update(Request $formdata, $id)
+    public function update(Request $request, Proyecto $p)
     {
-        $p_actualizado = Proyecto::find($id);
-        $p_actualizado->NombreProyecto = $formdata->input('NombreProyecto');
-        $p_actualizado->fuenteFondos = $formdata->input('fuenteFondos');
-        $p_actualizado->MontoPlanificado = $formdata->input('MontoPlanificado');
-        $p_actualizado->MontoPatrocinado = $formdata->input('MontoPatrocinado');
-        $p_actualizado->MontoFondosPropios = $formdata->input('MontoFondosPropios');
-        $p_actualizado->save();
+        $p->NombreProyecto= $request->get('NombreProyecto');
+        $p->fuenteFondos= $request->get('fuenteFondos');
+        $p->MontoPlanificado= $request->get('MontoPlanificado');
+        $p->MontoPatrocinado= $request->get('MontoPatrocinado');
+        $p->MontoFondosPropios= $request->get('MontoFondosPropios');
+        $p->save();
         return redirect()->route('home');
     }
 
    
-    public function destroy($id)
+    public function destroy(Proyecto $p)
     {
-        $p_seleccionado = Proyecto::find($id);
-        $p_seleccionado->delete();
-        return redirect()->route('home');
+        $p->delete();
+        return redirect()->route('home')->with('success', 'Unidad eliminada correctamente.');
     }
 }

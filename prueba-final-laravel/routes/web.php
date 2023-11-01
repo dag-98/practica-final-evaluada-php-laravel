@@ -19,6 +19,10 @@ Route::get('/', function () {
 });
 
 //Proyectos
-Route::resource('/proyectos', ProyectoController::class);
-// Route::post('/users/import', [UserController::class, 'importCsv'])->name('process.csv');
-// Route::post('/users/guardar-registros', [UserController::class, 'guardarRegistros'])->name('guardar.registros');
+Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
+Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create');
+Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
+Route::get('/proyectos/{proyecto}', [ProyectoController::class, 'show'])->name('proyectos.show');
+Route::get('/proyectos/{proyecto}/edit', [ProyectoController::class, 'edit'])->name('proyectos.edit');
+Route::put('/proyectos/{proyecto}', [ProyectoController::class, 'update'])->name('proyectos.update');
+Route::delete('/proyectos/{proyecto}', [ProyectoController::class, 'destroy'])->name('proyectos.destroy');

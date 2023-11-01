@@ -11,7 +11,7 @@ class ProyectoController extends Controller
     public function index()
     {
         $proyecto = Proyecto::all();
-        return view('index')->with('listaProyectos', $proyecto);
+        return view('index')->with('proyectos', $proyecto);
     }
 
     
@@ -24,46 +24,38 @@ class ProyectoController extends Controller
     public function store(Request $request)
     {
 
-        $nuevoProyecto = Proyecto::create([
-            'NombreProyecto' => $request->get('NombreProyecto'),
-            'fuenteFondos' => $request->get('fuenteFondos'),
-            'MontoPlanificado' => $request->get('MontoPlanificado'),
-            'MontoPatrocinado' => $request->get('MontoPatrocinado'),
-            'MontoFondosPropios' => $request->get('MontoFondosPropios')
-        ]);
+        $nuevo_proyecto = new Proyecto($request->all());
+        $nuevo_proyecto->save();
         return redirect()->route('index');
     }
 
    
-    public function show(Proyecto $p)
+    public function show($id)
     {
-        
-        return view('mostrar')->with('proyecto', $p);
+        $proyecto = Proyecto::findOrFail($id);
+        return view('mostrar')->with('proyecto', $proyecto);
     }
 
     
-    public function edit(Proyecto $p)
+    public function edit($id)
     {
-        
-        return view('editar')->with('proyecto', $p);
+        $proyecto = Proyecto::findOrFail($id);
+        return view('editar')->with('proyecto', $proyecto);
     }
 
    
-    public function update(Request $request, Proyecto $p)
+    public function update(Request $request, $id)
     {
-        $p->NombreProyecto= $request->get('NombreProyecto');
-        $p->fuenteFondos= $request->get('fuenteFondos');
-        $p->MontoPlanificado= $request->get('MontoPlanificado');
-        $p->MontoPatrocinado= $request->get('MontoPatrocinado');
-        $p->MontoFondosPropios= $request->get('MontoFondosPropios');
-        $p->save();
+        $proyecto = Proyecto::findOrFail($id);
+        $proyecto->update($request->all());
         return redirect()->route('home');
     }
 
    
-    public function destroy(Proyecto $p)
+    public function destroy($id)
     {
-        $p->delete();
+        $proyecto = Proyecto::findOrFail($id);
+        $proyecto->delete();
         return redirect()->route('home')->with('success', 'Unidad eliminada correctamente.');
     }
 }

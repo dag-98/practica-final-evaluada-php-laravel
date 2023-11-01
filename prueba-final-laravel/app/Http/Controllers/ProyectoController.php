@@ -26,14 +26,14 @@ class ProyectoController extends Controller
 
         $nuevo_proyecto = new Proyecto($request->all());
         $nuevo_proyecto->save();
-        return redirect()->route('index');
+        return redirect()->route('proyectos.index');
     }
 
    
     public function show($id)
     {
         $proyecto = Proyecto::findOrFail($id);
-        return view('mostrar')->with('proyecto', $proyecto);
+        return view('consultar')->with('proyecto', $proyecto);
     }
 
     
@@ -48,7 +48,7 @@ class ProyectoController extends Controller
     {
         $proyecto = Proyecto::findOrFail($id);
         $proyecto->update($request->all());
-        return redirect()->route('home');
+        return redirect()->route('proyectos.index');
     }
 
    
@@ -56,6 +56,6 @@ class ProyectoController extends Controller
     {
         $proyecto = Proyecto::findOrFail($id);
         $proyecto->delete();
-        return redirect()->route('home')->with('success', 'Unidad eliminada correctamente.');
+        return redirect()->route('proyectos.index')->with('success', 'Unidad eliminada correctamente.');
     }
 }

@@ -26,3 +26,8 @@ Route::get('/proyectos/{proyecto}', [ProyectoController::class, 'show'])->name('
 Route::get('/proyectos/{proyecto}/edit', [ProyectoController::class, 'edit'])->name('proyectos.edit');
 Route::put('/proyectos/{proyecto}', [ProyectoController::class, 'update'])->name('proyectos.update');
 Route::delete('/proyectos/{proyecto}', [ProyectoController::class, 'destroy'])->name('proyectos.destroy');
+
+//PDF
+
+Route::get('/generarPDF', [ProyectoController::class, 'informe_global'])->name('informeCompleto');
+Route::get('/PDFindividual/{id}', [ProyectoController::class, 'informe_individual'])->name('informeIndividual');

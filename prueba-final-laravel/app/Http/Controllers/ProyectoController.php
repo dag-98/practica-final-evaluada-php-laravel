@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Proyecto;
 use Illuminate\Http\Request;
-
+use PDF;
+use Carbon\Carbon;
 class ProyectoController extends Controller
 {
    
@@ -57,5 +58,24 @@ class ProyectoController extends Controller
         $proyecto = Proyecto::findOrFail($id);
         $proyecto->delete();
         return redirect()->route('proyectos.index')->with('success', 'Unidad eliminada correctamente.');
+    }
+
+    public function informe_global(){
+        $hoy = getdate();
+        $estampa = "$hoy[month]_$hoy[mday]_$hoy[year]";
+        $fecha_modificado = Carbon::now()->format('d-m-Y');
+        $todos   = Proyecto::all();
+        $informe = PDF::loadView('reporte', ['proyectos' => $todos, 'fecha' => $fecha_modificado]);
+        return $informe->stream("informe_$estampa.pdf");
+    }
+
+    public function informe_individual($identifier){
+        $hoy = getdate();
+        $estampa = "$hoy[month]_$hoy[mday]_$hoy[year]";
+        $fecha_modificado = Carbon::now()->format('d-m-Y');
+        $seleccion = [Proyecto::find($identifier)];
+        $informe = PDF::loadView('reporte', ['proyectos' => $seleccion, 'fecha' => $fecha_modificado]);
+        return $informe->stream("informe_individual_$estampa.pdf");
+
     }
 }

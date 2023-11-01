@@ -85,9 +85,9 @@ div {
     <th>ID</th>
     <th>Proyecto</th>
     <th>Fuente</th>
-    <th>Planificado</th>
-    <th>Patrocinado</th>
-    <th>Propios</th>
+    <th>M.Planificado</th>
+    <th>M.Patrocinado</th>
+    <th>M.Propios</th>
 </tr>
 @foreach($proyectos as $proyecto)
 <tr>
